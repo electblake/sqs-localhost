@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electblake/sqs-localhost"
+  },
   "scripts": {
     "test": "DEBUG=* jest",
     "dev": "webpack --watch"
   },
+  "keywords": [
+    "sqs",
+    "elasticmq",
+    "aws",
+    "message-queue",
+    "queue"
+  ],
   "author": "Blake E <electblake@gmail.com>",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "release-it": "^12.2.1"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.13",
     "jest": "^24.8.0",
