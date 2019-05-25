@@ -1,0 +1,24 @@
+{
+  "name": "sqs-local",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "DEBUG=* jest",
+    "dev": "webpack --watch"
+  },
+  "author": "Blake E <electblake@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "execa": "^1.0.0",
+    "q": "^1.5.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "jest": {}
+}

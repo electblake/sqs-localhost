@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017"],
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "target": "es2017",
+    "outDir": "lib"
+  },
+  "exclude": ["node_modules", "__tests__", "__mocks__", "__seeds__"]
+}
