@@ -17,6 +17,12 @@ sqs.launch()
 sqs.stop()
 ```
 
+TypeScript
+
+```
+import SQSLocal from 'sqs-localhost'
+```
+
 ### Advanced
 
 ```
