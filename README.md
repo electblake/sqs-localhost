@@ -1,6 +1,7 @@
 # SQS Localhost
 
-- https://github.com/softwaremill/elasticmq
+- Install and Launch https://github.com/softwaremill/elasticmq
+- Inspired by https://github.com/99xt/dynamodb-localhost
 
 ## Usage
 
@@ -35,4 +36,15 @@ console.log('pid', process.pid)
 
 process.kill('SIGKILL')
 
+```
+
+## Development
+
+```
+npm install
+npm run dev
+```
+
+```
+npm run test -- --watch
 ```
