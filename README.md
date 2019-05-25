@@ -13,7 +13,7 @@ npm install sqs-localhost
 const SQSLocal = require('sqs-localhost')
 
 const sqs = new SQSLocal()
-sqs.launch()
+await sqs.launch()
 sqs.stop()
 ```
 

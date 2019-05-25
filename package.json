@@ -20,9 +20,7 @@
   ],
   "author": "Blake E <electblake@gmail.com>",
   "license": "ISC",
-  "dependencies": {
-    "release-it": "^12.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.13",
     "jest": "^24.8.0",
