@@ -4,18 +4,17 @@ import { spawn, ChildProcess } from 'child_process'
 import * as https from 'https'
 import * as path from 'path'
 
-// const Q = require('q')
 const debug = require('debug')('sqs-local')
 
-interface SQSLocalConfig {
+export interface SQSLocalOptions {
   installPath?: string
   downloadUrl?: string
   verbose?: boolean
   detached?: boolean
   configFile?: string
+  start?: boolean
 }
-
-export class SQSLocal {
+export default class SQSLocal {
   private installPath: string = path.join(os.tmpdir(), 'sqs-local')
   public version: string = '0.14.6'
   private jarname: string = `elasticmq-server-${this.version}.jar`
@@ -25,27 +24,18 @@ export class SQSLocal {
   public process: ChildProcess
   public configFile: string
 
-  constructor(config?: SQSLocalConfig) {
-    if (config) {
-      if (config.installPath) {
-        this.installPath = config.installPath
-      }
-      if (config.downloadUrl) {
-        this.downloadUrl = config.downloadUrl
-      }
-      if (config.verbose) {
-        this.verbose = config.verbose
-      }
-      if (config.detached) {
-        this.detached = config.detached
-      }
-      if (config.configFile) {
-        this.configFile = config.configFile
-      }
+  constructor(options?: SQSLocalOptions) {
+    if (options) {
+      this.loadOptions(options)
     }
   }
 
-  async launch() {
+  async start(options?: SQSLocalOptions) {
+    return this.launch(options)
+  }
+
+  async launch(options?: SQSLocalOptions) {
+    this.loadOptions(options)
     await this.install()
 
     const args = ['-jar', this.jarname]
@@ -114,27 +104,47 @@ export class SQSLocal {
     return true
   }
 
-  relaunch() {
+  async relaunch(options?: SQSLocalOptions) {
+    this.loadOptions(options)
     this.stop()
-    this.launch()
-    return true
+    return this.launch()
   }
 
-  configureInstaller(conf: SQSLocalConfig) {
-    if (conf.installPath) {
-      this.installPath = conf.installPath
-    }
-    if (conf.downloadUrl) {
-      this.downloadUrl = conf.downloadUrl
+  loadOptions(options: SQSLocalOptions) {
+    if (options) {
+      if (options.installPath) {
+        this.installPath = options.installPath
+      }
+      if (options.downloadUrl) {
+        this.downloadUrl = options.downloadUrl
+      }
+      if (options.verbose) {
+        this.verbose = options.verbose
+      }
+      if (options.detached) {
+        this.detached = options.detached
+      }
+      if (options.configFile) {
+        this.configFile = options.configFile
+      }
     }
   }
 
-  async install() {
+  remove() {
+    fs.unlinkSync(this.installedJarPath)
+  }
+
+  get installedJarPath() {
+    return path.join(this.installPath, this.jarname)
+  }
+
+  async install(options?: SQSLocalOptions) {
+    this.loadOptions(options)
     debug('Checking for SQS-Local in ', this.installPath)
     const downloadUrl = this.downloadUrl
     const verbose = this.verbose
     try {
-      if (fs.existsSync(path.join(this.installPath, this.jarname))) {
+      if (fs.existsSync(this.installedJarPath)) {
         debug('Already installed in', this.installPath)
         return true
       }
@@ -144,17 +154,23 @@ export class SQSLocal {
 
     if (!fs.existsSync(this.installPath)) fs.mkdirSync(this.installPath)
 
+    const dest = fs.createWriteStream(this.installedJarPath)
+
+    dest.on('finish', () => dest.close())
+
     if (fs.existsSync(this.downloadUrl)) {
       debug('Installing from local file:', this.downloadUrl)
       const downloadUrl = this.downloadUrl
       return new Promise((resolve, reject) => {
-        fs.createReadStream(downloadUrl)
+        const res = fs
+          .createReadStream(downloadUrl)
           .on('end', function() {
             resolve(true)
           })
           .on('error', function(err) {
             reject(err)
           })
+        res.pipe(dest)
       })
     } else {
       debug('Downloading..', downloadUrl)
@@ -164,6 +180,7 @@ export class SQSLocal {
             if (200 != res.statusCode) {
               reject(new Error(`Error getting ${res.headers['location']}: ${res.statusCode}`))
             }
+            res.pipe(dest)
             res
               .on('data', function() {
                 if (verbose) {
@@ -186,5 +203,3 @@ export class SQSLocal {
     }
   }
 }
-
-export default SQSLocal

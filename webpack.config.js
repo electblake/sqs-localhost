@@ -6,7 +6,7 @@ const plugins = []
 module.exports = {
   mode: process.env.NODE_ENV != 'production' ? 'development' : 'production',
   entry: {
-    index: './index.ts',
+    index: './src/index.ts',
   },
   devtool: 'source-map',
   resolve: {

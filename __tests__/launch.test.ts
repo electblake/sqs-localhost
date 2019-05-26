@@ -7,6 +7,7 @@ describe('launch', () => {
     expect(process).toHaveProperty('pid')
     const stop = local.stop()
     expect(stop).toBe(true)
+    local.remove()
     return true
   }, 100000)
 })

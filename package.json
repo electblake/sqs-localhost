@@ -3,13 +3,15 @@
   "version": "1.0.3",
   "description": "SQS interface via elasticmq locally (inspired by dynamodb-localhost)",
   "main": "dist/index.js",
+  "types": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/electblake/sqs-localhost"
   },
   "scripts": {
     "test": "DEBUG=* jest",
-    "dev": "webpack --watch"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "license": "MIT",
   "keywords": [
