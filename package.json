@@ -1,6 +1,6 @@
 {
   "name": "sqs-localhost",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SQS interface via elasticmq locally (inspired by dynamodb-localhost)",
   "main": "lib/index.js",
   "types": "src/index.ts",
