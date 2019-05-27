@@ -3,17 +3,9 @@ import * as fs from 'fs'
 import { spawn, ChildProcess } from 'child_process'
 import * as https from 'https'
 import * as path from 'path'
-
+import { SQSLocalOptions } from './types'
 const debug = require('debug')('sqs-local')
 
-export interface SQSLocalOptions {
-  installPath?: string
-  downloadUrl?: string
-  verbose?: boolean
-  detached?: boolean
-  configFile?: string
-  start?: boolean
-}
 export default class SQSLocal {
   private installPath: string = path.join(os.tmpdir(), 'sqs-local')
   public version: string = '0.14.6'
