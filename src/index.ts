@@ -33,7 +33,7 @@ export default class SQSLocal {
     const args = ['-jar', this.jarname]
 
     if (this.configFile) {
-      args.push('-Dconfig.file=' + this.configFile)
+      args.unshift('-Dconfig.file=' + this.configFile)
     }
     if (this.process) {
       return this.process
